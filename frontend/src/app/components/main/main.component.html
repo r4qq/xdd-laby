@@ -1,0 +1,25 @@
+<div class="layout-main">
+  <h2>Ogłoszenia wybranej kategorii</h2>
+  
+  <div class="mb-3">
+    @for (cat of categories; track cat.id) {
+      <label class="me-3">
+        <input type="checkbox" 
+               [checked]="selectedCats[cat.id]" 
+               (change)="toggleCat(cat.id)"> 
+        {{ cat.nazwa }}
+      </label>
+    }
+  </div>
+
+  @for (ad of ads; track ad.id) {
+    <div>
+      <h3>{{ ad.id }} {{ ad.tytul }}</h3>
+      <p>{{ ad.tresc }}</p>
+      <p>telefon kontaktowy: {{ ad.telefon }}</p>
+      <hr>
+    </div>
+  } @empty {
+    <p>Brak ogłoszeń dla wybranych kategorii.</p>
+  }
+</div>

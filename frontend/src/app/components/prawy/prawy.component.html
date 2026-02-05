@@ -1,0 +1,35 @@
+<div class="layout-prawy">
+  <h2>Dodawanie ogłoszenia</h2>
+  <form (ngSubmit)="onSubmit()">
+    
+    <div class="mb-3">
+      <label>Wybierz użytkownika</label>
+      <select class="form-select" [(ngModel)]="formData.uzytkownik_id" name="user">
+        @for (u of users; track u.id) {
+          <option [value]="u.id">{{ u.imie }} {{ u.nazwisko }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Wybierz kategorię</label>
+      <select class="form-select" [(ngModel)]="formData.kategoria" name="cat">
+        @for (c of categories; track c.id) {
+          <option [value]="c.id">{{ c.nazwa }}</option>
+        }
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label>Tytuł ogłoszenia</label>
+      <input type="text" class="form-control" [(ngModel)]="formData.tytul" name="title">
+    </div>
+
+    <div class="mb-3">
+      <label>Treść ogłoszenia</label>
+      <textarea class="form-control" rows="4" [(ngModel)]="formData.tresc" name="content"></textarea>
+    </div>
+
+    <button type="submit" class="btn btn-primary">DODAJ</button>
+  </form>
+</div>

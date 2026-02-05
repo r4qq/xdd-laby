@@ -1,0 +1,25 @@
+.layout-lewy{ 
+    background-color: #DBB29C; 
+    min-height: 700px; 
+    padding: 10px; 
+}
+ol { 
+    list-style-type: upper-roman; 
+    padding-left: 20px; 
+}
+.book-img { 
+    padding: 30px; 
+    max-width: 100%; 
+}
+
+.custom-table {
+    width: 100%; 
+    text-align: center; 
+    border-spacing: 0; 
+    border-collapse: separate; 
+    margin-top: 20px; 
+}
+.custom-table th, .custom-table td { 
+    border: 1px dashed brown;
+     padding: 5px; 
+}

@@ -1,0 +1,9 @@
+.layout-banner {
+  background-color: #40271A;
+  color: white;
+  font-family: 'Tahoma', sans-serif;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
