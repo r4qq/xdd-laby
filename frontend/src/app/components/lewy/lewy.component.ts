@@ -15,14 +15,13 @@ export class LewyComponent implements OnInit {
 
   constructor(private api: ApiService) {}
 
-  ngOnInit() {
-    // await this.api.getCategories().then(data => {this.categories = data
-    //                                       console.log(data)
-    //                                       console.log(this.categories)}
-    // ).catch((error => {console.log(error)}));
+  async ngOnInit() {
+    await this.api.getCategories().then(data => {this.categories = [...data]
+                                          console.log(data)
+                                          console.log(this.categories)}
+    ).catch((error => {console.log(error)}));
 
-    axios.get<Category[]>('http://localhost:3000/categories')
-      .then(data => this.categories = data.data)
-
+  //   axios.get<Category[]>('http://localhost:3000/categories')
+  //     .then(data => this.categories = data.data)
   }
 }
