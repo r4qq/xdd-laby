@@ -1,41 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms'; 
+import { Component, OnInit, signal, effect, inject } from '@angular/core';
 import { ApiService, Category, Ad } from '../../api.service';
 
 @Component({
   selector: 'app-main',
   standalone: true,
-  imports: [FormsModule], 
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.css']
 })
 export class MainComponent implements OnInit {
-  categories: Category[] = [];
-  ads: Ad[] = [];
-  selectedCats: { [key: number]: boolean } = {};
+  private api = inject(ApiService);
+  
+  categories = signal<Category[]>([]);
+  ads = signal<Ad[]>([]);
+  // Store selected IDs in a signal array
+  selectedIds = signal<number[]>([]);
 
-  constructor(private api: ApiService) {}
+  constructor() {
+    // This "effect" runs every time selectedIds OR the service refreshSignal changes
+    effect(() => {
+      this.loadAds(this.selectedIds());
+      this.api.refreshSignal(); 
+    });
+  }
 
   async ngOnInit() {
-    this.categories = await this.api.getCategories();
-    this.categories.forEach(c => this.selectedCats[c.id] = true);
-    this.loadAds();
-    this.api.subscribeToRefresh(() => this.loadAds());
+    const data = await this.api.getCategories();
+    this.categories.set(data);
+    // Start with all categories selected
+    this.selectedIds.set(data.map(c => c.id));
   }
 
   toggleCat(id: number) {
-    this.selectedCats[id] = !this.selectedCats[id];
-    this.loadAds();
+    const current = this.selectedIds();
+    if (current.includes(id)) {
+      this.selectedIds.set(current.filter(val => val !== id));
+    } else {
+      this.selectedIds.set([...current, id]);
+    }
   }
 
-  loadAds() {
-    const activeIds = Object.keys(this.selectedCats)
-      .filter(k => this.selectedCats[+k])
-      .map(Number);
-    this.api.getAds(activeIds).then(data => {
-                                        this.ads = data
-                                        console.log(data)
-                                        console.log(this.ads)
-                                      }).catch((error => {console.log(error)}));
+  async loadAds(ids: number[]) {
+    const data = await this.api.getAds(ids);
+    this.ads.set(data);
   }
 }

@@ -2,17 +2,17 @@
   <h2>Ogłoszenia wybranej kategorii</h2>
   
   <div class="mb-3">
-    @for (cat of categories; track cat.id) {
+    @for (cat of categories(); track cat.id) {
       <label class="me-3">
         <input type="checkbox" 
-               [checked]="selectedCats[cat.id]" 
+               [checked]="selectedIds()[cat.id]" 
                (change)="toggleCat(cat.id)"> 
         {{ cat.nazwa }}
       </label>
     }
   </div>
 
-  @for (ad of ads; track ad.id) {
+  @for (ad of ads(); track ad.id) {
     <div>
       <h3>{{ ad.id }} {{ ad.tytul }}</h3>
       <p>{{ ad.tresc }}</p>
